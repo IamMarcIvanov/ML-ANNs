@@ -3,6 +3,7 @@ import pandas as pd
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import timer
 
 class LogisticRegression:
     def __init__(self, 
@@ -121,9 +122,13 @@ class LogisticRegression:
             if loss:
                 plt.plot(iters, self.loss[:-1], color='r', label='Loss')
                 plt.title('Stochastic Gradient Descent ; Loss ; lr=' + str(self.learning_rate))
+                plt.legend()
                 plt.show()
             if acc:
                 plt.plot(iters, self.accuracy[:-1], color='g', label='Accuracy')
+                plt.title('Gradient Descent ; Accuracy ; lr=' + str(self.learning_rate))
+                plt.legend()
+                plt.show()
             if precision:
                 plt.plot(iters, self.precision[:-1], color='b', label='Precision')
             if recall:
@@ -137,11 +142,13 @@ class LogisticRegression:
             if loss:
                 plt.plot(iters, self.loss[:-1], color='r', label='Loss')
                 plt.title('Gradient Descent ; Loss ; lr=' + str(self.learning_rate))
+                plt.legend()
                 plt.show()
             if acc:
-                plt.plot(iters, self.accuracy[:-1],
-                         color='g', label='Accuracy')
+                plt.plot(iters, self.accuracy[:-1], color='g', label='Accuracy')
                 plt.title('Gradient Descent ; Accuracy ; lr=' + str(self.learning_rate))
+                plt.legend()
+                plt.show()
             if precision:
                 plt.plot(iters, self.precision[:-1], color='b', label='Precision')
             if recall:
@@ -155,30 +162,30 @@ class LogisticRegression:
         
 dataLocation = r'E:\BITS\Yr 3 Sem 2\BITS F464 Machine Learning\Assignments\Assignment 2\2A\dataset_LR.csv'
 sgd_acc_sum, gd_acc_sum, sgd_loss_sum, gd_loss_sum = 0, 0, 0, 0
-for i in range(10):
-    model = LogisticRegression(dataLocation, lr=1)
-    model.setData()
-    model.fit(sgd=False)
-    if i == 0:
-        model.plotter(sgd=False)
-    agd, lgd = model.accuracy[-1], model.loss[-1]
-    gd_acc_sum += agd
-    gd_loss_sum += lgd
+for rates in [0.01, 0.1, 1]:
+    model = LogisticRegression(dataLocation, lr=rates)
+    for i in range(10):
+        model.setData()
+        model.fit(sgd=False)
+        if i == 0:
+            model.plotter(sgd=False)
+        agd, lgd = model.accuracy[-1], model.loss[-1]
+        gd_acc_sum += agd
+        gd_loss_sum += lgd
 
-    model = LogisticRegression(dataLocation, lr=1)
-    model.setData()
-    model.fit(sgd=True)
-    if i == 0: 
-        model.plotter(sgd=True)
-    asgd, lsgd = model.accuracy[-1], model.loss[-1]
-    sgd_acc_sum += asgd
-    sgd_loss_sum += lsgd
-    
-    if i == 0:
-        print('{:^5}{:^30}{:^30}{:^30}'.format('No.', 'Stat Name', 'Gradient Descent','Stochastic Gradient Descent'))
-     
-    print('{:^5}{:^30}{:^30}{:^30}'.format(i + 1, 'Accuracy', agd, asgd))
-    print('{:^5}{:^30}{:^30}{:^30}'.format('', 'Loss', lgd, lsgd))
+        model.setData()
+        model.fit(sgd=True)
+        if i == 0: 
+            model.plotter(sgd=True)
+        asgd, lsgd = model.accuracy[-1], model.loss[-1]
+        sgd_acc_sum += asgd
+        sgd_loss_sum += lsgd
+        
+        if i == 0:
+            print('{:^5}{:^30}{:^30}{:^30}'.format('No.', 'Stat Name', 'Gradient Descent','Stochastic Gradient Descent'))
+        
+        #print('{:^5}{:^30}{:^30}{:^30}'.format(i + 1, 'Accuracy', agd, asgd))
+        #print('{:^5}{:^30}{:^30}{:^30}'.format('', 'Loss', lgd, lsgd))
 
-print('{:^5}{:^30}{:^30}{:^30}'.format('All', 'Avg Accuracy', '{:.6f}'.format(gd_acc_sum / 10), '{:.6f}'.format(sgd_acc_sum / 10)))
-print('{:^5}{:^30}{:^30}{:^30}'.format('All', 'Avg Loss', '{:.6f}'.format(gd_loss_sum / 10), '{:.6f}'.format(sgd_loss_sum / 10)))
+    print('{:^5}{:^30}{:^30}{:^30}'.format('All', 'Avg Accuracy', '{:.6f}'.format(gd_acc_sum / 10), '{:.6f}'.format(sgd_acc_sum / 10)))
+    print('{:^5}{:^30}{:^30}{:^30}'.format('All', 'Avg Loss', '{:.6f}'.format(gd_loss_sum / 10), '{:.6f}'.format(sgd_loss_sum / 10)))
