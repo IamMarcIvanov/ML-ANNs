@@ -46,7 +46,9 @@ class LogistiRegression:
                 plt.plot()
     
     def getLoss(self):
-        yPred = - self.yTest 
+        h_x = 1 / (1 + np.exp(- (self.xTest.dot(self.weights) + self.bias)))
+        loss = np.dot(- self.yTest,  np.log(h_x)) - np.dot(1 - self.yTest, np.log(1 - h_x))
+        return loss
 
     
         
