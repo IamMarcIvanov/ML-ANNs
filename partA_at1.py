@@ -11,8 +11,8 @@ class LogisticRegression:
                  lr=0.01, 
                  iterations=1000, 
                  train_test_split=0.7,
-                 batch_size=100,
-                 n_epochs=10):
+                 batch_size=10,
+                 n_epochs=1000):
         
         self.dataPath = dataPath
         self.xTrain = None
