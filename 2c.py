@@ -61,8 +61,4 @@ plt.xticks(range(1,len(modelName)+1), modelName, rotation ='vertical')
 plt.savefig("plot.png",dpi=1500)
 plt.show()
 
-maxx=-1
-for i in scores:
-    if maxx<=max(i):
-        maxx=max(i)
 print('Maximum Accuracy:', max(scores[4]))
