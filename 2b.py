@@ -1,3 +1,4 @@
+# %%
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors
@@ -25,6 +26,7 @@ class ANN:
         self.H[0] = x.reshape(1, -1)
         for i in range(self.nh):
             A[i+1] = np.matmul(self.H[i], self.W[i+1]) + self.B[i+1]
+            A[i + 1] = [self.H[i+1]if A[i + 1] > 100000000
             self.H[i+1] = 1.0 / (1.0 + np.exp(- A[i + 1]))
         A[self.nh+1]=np.matmul(self.H[self.nh],
                                     self.W[self.nh+1]) + self.B[self.nh+1]
@@ -59,7 +61,7 @@ class ANN:
             dH[k-1]=np.matmul(dA[k], self.W[k].T)
             dA[k-1]=np.multiply(dH[k-1], self.H[k-1] * (1 - self.H[k-1]))
 
-    def fit(self, X, Y, epochs=100, learning_rate=0.01, display_loss=False):
+    def fit(self, X, Y, epochs=10000, learning_rate=0.01, display_loss=False):
         self.lr=learning_rate
         if display_loss:
             loss={}
@@ -128,7 +130,6 @@ def test_train_split(x, y, test_size=0.25):
     y_test=y.tail(n_test).to_numpy()
     return x_train, x_test, y_train, y_test
 
-
 X_train, X_test, y_train, y_test=test_train_split(X, y, test_size=0.3)
 
 y_OH_train=one_hot(np.expand_dims(y_train, 1))
@@ -156,3 +157,5 @@ for n_hidden_layers in [1, 2]:
         print('Accuracy:', accuracy_test,
               'Hidden Layers:', n_hidden_layers,
               'Learning Rate:', rate)
+
+# %%

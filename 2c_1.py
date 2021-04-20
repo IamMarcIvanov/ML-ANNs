@@ -73,6 +73,6 @@ plt.xlabel('Fold Number')
 plt.ylabel('Accuracy')
 plt.show()
 
-print('Maximum Accuracy:', max(scores[4]))
+print('Maximum Accuracy:', max(max(scores)))
 
 # %%
